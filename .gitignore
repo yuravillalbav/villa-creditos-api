@@ -6,9 +6,13 @@ __pycache__/
 dist/
 build/
 
+#DB
+*.db
+
 # Virtualenv
 venv/
 .env/
+env/
 
 # VSCode
 .vscode/
@@ -17,9 +21,14 @@ venv/
 *.log
 *.pid
 
-# OS
+# Sistema Operativo
 .DS_Store
 Thumbs.db
 
-# Otros
+# Alembic
+alembic/versions/
+alembic/
+alembic.ini
+
+# Archivos de configuración privados
 .env
