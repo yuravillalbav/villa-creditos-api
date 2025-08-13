@@ -1,9 +1,63 @@
+# ============================================================================
+# VILLA CRÉDITOS API - DOCKERIGNORE
+# ============================================================================
+
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.py[cod]
+
+# Base de datos local
 *.db
-.env
-venv/
-.idea/
+*.sqlite
 *.sqlite3
+data/
+backups/
+
+# Entornos virtuales
+venv/
+.env/
+env/
+.venv/
+
+# Variables de entorno
+.env
+.env.local
+.env.development
+
+# IDEs
+.idea/
+.vscode/
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Documentación
+README.md
+docs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
+logs/
+
+# Archivos temporales
+*.tmp
+*.bak
+temp/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db

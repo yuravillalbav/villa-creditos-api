@@ -1,21 +1,42 @@
+# ============================================================================
+# VILLA CRÉDITOS API - GITIGNORE
+# ============================================================================
+
 # Python
 __pycache__/
 *.py[cod]
+*$py.class
+*.so
 *.egg
 *.egg-info/
 dist/
 build/
+*.whl
 
-#DB
+# Base de datos
 *.db
+*.sqlite
+*.sqlite3
+data/
+backups/
 
-# Virtualenv
+# Entornos virtuales
 venv/
 .env/
 env/
+.venv/
 
-# VSCode
+# Variables de entorno
+.env
+.env.local
+.env.production
+.env.development
+
+# IDEs
 .vscode/
+.idea/
+*.swp
+*.swo
 
 # Docker
 *.log
@@ -24,11 +45,34 @@ env/
 # Sistema Operativo
 .DS_Store
 Thumbs.db
+*.tmp
 
-# Alembic
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Logs
+logs/
+*.log
+
+# Archivos temporales
+temp/
+tmp/
+*.bak
+
+# Alembic (migraciones)
 alembic/versions/
 alembic/
 alembic.ini
 
-# Archivos de configuración privados
-.env
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# PyCharm
+.idea/
+
+# Archivos de configuración específicos del usuario
+config.local.py
+settings.local.py

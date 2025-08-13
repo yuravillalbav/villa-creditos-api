@@ -11,7 +11,6 @@ Una API REST moderna para la gestión de préstamos personales, construida con F
 - [Endpoints](#-endpoints)
 - [Modelos de Datos](#-modelos-de-datos)
 - [Validaciones](#-validaciones)
-- [Desarrollo](#-desarrollo)
 - [Contribuir](#-contribuir)
 - [Licencia](#-licencia)
 - [Autores](#-autores)
@@ -50,7 +49,7 @@ Una API REST moderna para la gestión de préstamos personales, construida con F
 
 1. **Clonar el repositorio**
    ```bash
-   git clone <git@github.com:yuravillalbav/villa-creditos-api.git>
+   git clone git@github.com:yuravillalbav/villa-creditos-api.git
    cd api_villacreditos
    ```
 
@@ -59,9 +58,9 @@ Una API REST moderna para la gestión de préstamos personales, construida con F
    docker build -t villa-creditos-api .
    ```
 
-3. **Ejecutar el contenedor**
+3. **Ejecutar el contenedor (básico)**
    ```bash
-   docker run -d -p 8000:8000 --name villa-creditos villa-creditos-api
+   docker run -p 8000:8000 villa-creditos-api
    ```
 
 4. **Acceder a la API**
@@ -69,36 +68,6 @@ Una API REST moderna para la gestión de préstamos personales, construida con F
    - Documentación: http://127.0.0.1:8000/docs
    - Redoc: http://127.0.0.1:8000/redoc
 
-### 🔧 Instalación local (Desarrollo)
-
-Si prefieres ejecutar sin Docker:
-
-1. **Clonar el repositorio**
-   ```bash
-   git clone <git@github.com:yuravillalbav/villa-creditos-api.git>
-   cd api_villacreditos
-   ```
-
-2. **Crear entorno virtual**
-   ```bash
-   python -m venv env
-
-   # Windows
-   env\Scripts\activate
-
-   # Linux/Mac
-   source env/bin/activate
-   ```
-
-3. **Instalar dependencias**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Iniciar el servidor**
-   ```bash
-   uvicorn main:app --reload --port 8000
-   ```
 
 ## 📖 Uso
 
@@ -126,6 +95,12 @@ curl -X POST "http://127.0.0.1:8000/loans/" \
 curl -X GET "http://127.0.0.1:8000/loans/"
 ```
 
+### Obtener un préstamo por ID
+
+```bash
+curl -X GET "http://127.0.0.1:8000/loans/1"
+```
+
 ### Actualizar un préstamo
 
 ```bash
@@ -137,11 +112,18 @@ curl -X PATCH "http://127.0.0.1:8000/loans/1" \
      }'
 ```
 
+### Eliminar un préstamo
+
+```bash
+curl -X DELETE "http://127.0.0.1:8000/loans/1"
+```
+
 ## 🔗 Endpoints
 
 | Método | Endpoint | Descripción |
 |--------|----------|-------------|
-| `GET` | `/loans/` | Obtener todos los préstamos |
+| `GET` | `/loans/` | Obtener todos los préstamos | 
+| `GET` | `/loans/{id}` | Obtener un préstamo por ID |
 | `POST` | `/loans/` | Crear un nuevo préstamo |
 | `PATCH` | `/loans/{id}` | Actualizar un préstamo |
 | `DELETE` | `/loans/{id}` | Eliminar un préstamo |
@@ -186,8 +168,6 @@ curl -X PATCH "http://127.0.0.1:8000/loans/1" \
 - `business` - Negocio
 - `education` - Educación
 - `medical` - Médico
-- `home_improvement` - Mejoras del hogar
-- `debt_consolidation` - Consolidación de deudas
 - `other` - Otro
 
 ## ✅ Validaciones
@@ -203,37 +183,26 @@ curl -X PATCH "http://127.0.0.1:8000/loans/1" \
 
 ### Monto
 - Valor positivo
-- Máximo: $50,000,000 COP
+- Minimo: $100.000 COP
+- Máximo: $500.000 COP
 
 ### Plazo
 - Valor positivo
-- Máximo: 60 meses
+- Máximo: 12 meses
 
 ### Email
 - Formato de email válido
 - Validación con Pydantic EmailStr
 
-## 🔧 Desarrollo
-
-### 🐳 Flujo de trabajo con Docker
-
-#### Backup de base de datos
-```bash
-# Copiar base de datos del contenedor
-docker cp villa-creditos:/app/loan_requests.db ./backup_$(date +%Y%m%d).db
-
-# Restaurar base de datos
-docker cp ./backup_20250804.db villa-creditos:/app/loan_requests.db
-```
 
 ### Estructura del proyecto
 
 ```
 api_villacreditos/
 ├── crud/
-│   └── loan.py              # Operaciones CRUD
+│   └── loan.py             # Operaciones CRUD
 ├── database/
-│   └── connection.py        # Configuración de BD
+│   └── connection.py       # Configuración de BD
 ├── models/
 │   └── models.py           # Modelos SQLAlchemy
 ├── routers/
@@ -242,35 +211,10 @@ api_villacreditos/
 │   └── schemas.py          # Esquemas Pydantic
 ├── main.py                 # Aplicación principal
 ├── requirements.txt        # Dependencias
-├── Dockerfile             # Configuración Docker
-├── .dockerignore          # Archivos ignorados por Docker
-├── .gitignore             # Archivos ignorados por Git
-└── README.md              # Este archivo
-```
-
-#### Desarrollo local (sin Docker)
-```bash
-# Solo si no usas Docker
-uvicorn main:app --reload --port 8000
-```
-
-#### Desarrollo con Docker
-
-# Construir imagen
-```bash
-docker build -t villa-creditos-api .
-```
-
-# Ejecutar contenedor
-```bash
-# Ejecutar en primer plano
-docker run -p 8000:8000 villa-creditos-api
-
-# Ejecutar en segundo plano
-docker run -d -p 8000:8000 --name villa-creditos villa-creditos-api
-
-# Ejecutar con volumen para persistir la base de datos
-docker run -d -p 8000:8000 -v $(pwd)/data:/app/data --name villa-creditos villa-creditos-api
+├── Dockerfile              # Configuración Docker
+├── .dockerignore           # Archivos ignorados por Docker
+├── .gitignore              # Archivos ignorados por Git
+└── README.md               # Este archivo
 ```
 
 ## 🤝 Contribuir
@@ -283,7 +227,7 @@ docker run -d -p 8000:8000 -v $(pwd)/data:/app/data --name villa-creditos villa-
 
 ## 📝 Licencia
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+Este proyecto está bajo la Licencia MIT.
 
 ## 👥 Autores
 
@@ -298,10 +242,9 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 - [ ] Roles de usuario (admin, cliente, analista)
 - [ ] Cálculos de interés automáticos
 - [ ] Notificaciones por email/SMS
-- [ ] Dashboard administrativo
 - [ ] Reportes en PDF/Excel
 - [ ] Integración con sistemas de pago
-- [ ] API de scoring crediticio
+
 
 ### Versión 1.1 (En desarrollo)
 
@@ -320,7 +263,7 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 - [x] Documentación Swagger
 - [x] Validaciones de datos
 - [x] Base de datos SQLite
-- [x] Dockerización
+
 
 ## 🙏 Agradecimientos
 
@@ -333,3 +276,5 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 ⭐ ¡No olvides dar una estrella al proyecto si te fue útil!
 
 **Villa Créditos API** - Simplificando el acceso al crédito 🏦✨
+
+**Creado con amor y dedicación** 💕👨‍💻
